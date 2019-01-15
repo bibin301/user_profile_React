@@ -1,0 +1,120 @@
+.signInPopup{
+    max-width:450px !important;
+    .modal-content{
+    border-radius: 0px;
+    .modal-header{
+      background: $titleBg;
+      padding: 10px;
+      text-align: center;
+      .modal-title{
+        text-align: center;
+        margin: auto;
+        width: 100%;
+        color: $fontColor;
+        font-size: 22px;
+        font-weight: 300;
+      }
+      button{
+        font-size: 40px;
+        color: $fontColor;
+        opacity: 1;
+        position: absolute;
+        right: 12px;
+        top: 5px;
+        outline: none;
+        font-weight: 100;
+       
+      }
+    }
+    .modal-body{
+      border:none;
+      h6{
+        font-weight: normal;
+        color: $fontColor;
+      }
+      .socialBtnGroup{
+        width: 100%;
+        display: block;
+        text-align: center;
+        button{
+          display: inline-flex;
+          padding: 0px;
+          justify-content: start;
+          border: 1px solid $tabborder;
+          background: $whiteColor;
+          padding: 6px;
+          width: 195px;
+          vertical-align: middle;
+          margin-right: 15px;
+          color: $fontColor;
+          &:last-child{
+            margin-right: 0px;
+          }
+          img{
+            width: 30px;
+            margin-right: 20px;
+          }
+  
+        }
+      }
+      .signWithEmail{
+        width: 100%;
+        display: block;
+        /* vertical-align: middle; */
+        margin: 10px 0px;
+        padding: 5px;
+        hr{
+          border-top: 2px dashed #949494;
+          width: 113px;
+          display: inline-table;
+          vertical-align: middle;
+  
+        }
+        h6{
+          display: inline-table;
+          font-weight: normal;
+          vertical-align: middle;
+          color: $fontColor;
+          padding: 0px 5px;
+          margin: 0;
+        }
+      }
+      .signInForm{
+          width:100%;
+          display: block;
+          .form-group{
+            label{
+              font-size: 14px;
+              color: #464646;
+              margin: 0;
+              font-weight: 200;
+            }
+            .form-control{
+              border: 1px solid $tabborder;
+              border-radius: 0px;
+              text-indent: 25px;
+              &:focus{
+                outline:none;
+                box-shadow: none;
+  
+              }
+            }
+            a{
+              font-size:14px;
+            }
+            button{
+              padding: 10px 20px;
+              width: 100%;
+              margin: 0px 0px 10px 0px;
+            }
+            .dontHaveAccount{
+              font-size: 14px;
+              color:$fontColor;
+            }
+          }
+          
+      }
+  
+    }
+  }
+  }
