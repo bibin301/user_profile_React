@@ -18,16 +18,26 @@ var config = {
   devServer: {
     // inline: true,
     historyApiFallback: true,
-    port: 3000
+    port: 3001
   },
 
   module: {
+   
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
+        },
+      
+        
+      },
+      {
+        test: /\.json$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'json-loader'
         }
       },
       {
@@ -49,9 +59,23 @@ var config = {
             loader: 'file-loader',
           }
         ]
-      }
-    ]
+      },
+      
+    ],
+  
+
+
   },
+//   target: 'node',
+//   externals:{
+//     fs:    "commonjs fs",
+//     path:  "commonjs path"
+// },
+node: {fs: 'empty'},
+externals: [
+  {'./cptable': 'var cptable'},
+  {'./jszip': 'jszip'}
+],
   plugins: [
     new HtmlWebPackPlugin({
       template: "./index.html",
