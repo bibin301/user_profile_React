@@ -1,0 +1,33 @@
+[
+  {
+    "busStopName": "Hopital Estuaire",
+    "stationName": "TFS-500kW",
+    "stationType": "TFS",
+    "ratedPower": 500,
+    "nbFacilities": 1,
+    "cycles": [
+      {
+        "cycleNo": 0,
+        "label": "Cycle 1",
+        "rechargedEnergy": 0,
+        "chargingTime": 0,
+        "dwellTime": 0
+      },
+      {
+        "cycleNo": 1,
+        "label": "Cycle 2",
+        "rechargedEnergy": 20.858,
+        "chargingTime": 177,
+        "dwellTime": 180
+      }
+    ]
+  },
+  {
+    "busStopName": "M. Bastié 1",
+    "stationName": "",
+    "stationType": "",
+    "ratedPower": 0,
+    "nbFacilities": 0,
+    "cycles": []
+  }
+]
