@@ -1,0 +1,44 @@
+ const getRow = ({
+      cycleNo,
+      svdSOC,
+      svdTime,
+      speedDistance,
+      speed
+    }) => {
+      return [
+        cycleNo,
+        svdSOC,
+        svdTime,
+        speedDistance,
+        speed
+      ]
+    }
+    console.log("trat",trat)
+    const userInfo1=[];
+    _forEach(trat, route => {
+      console.log("writing for Route", route.routeName);
+      _times(route.socVsDistance.length, cycleIndex => {
+          _times(route.socVsDistance[cycleIndex].distance.length, itemIndex => {
+          const { cycleNo, soc: svdSOC} = route.socVsDistance[cycleIndex];
+          const { time: svdTime } = route.socVsTime[cycleIndex];
+          const { distance: speedDistance, speed } = route.speedVsDistance[cycleIndex];
+          
+          userInfo1.push(getRow({
+            cycleNo: itemIndex==0 ? cycleNo : "",
+            svdSOC: svdSOC[itemIndex],
+            svdTime: svdTime[itemIndex],
+            speedDistance: speedDistance[itemIndex],
+            speed: speed[itemIndex]
+          }))
+        })
+      })
+    })
+    console.log("userInfo1" ,userInfo1)
+    console.log("trat",trat)
+        
+    const routexcycleyConsumption = [
+      {
+        columns: ["CycleNo" , "svdSOC" , "svdTime" , "speedDistance" , "speedSOC"],
+        data:userInfo1
+      }
+  ];
