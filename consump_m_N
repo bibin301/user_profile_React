@@ -1,0 +1,6509 @@
+import React, { Component } from 'react';
+import ReactExport from "react-data-export";
+
+import {
+    map as _map,
+    find as _find,
+    forEach as _forEach,
+    split as _split,
+    assign as _assign,
+    pick as _pick,
+    get as _get,
+    assignIn as _assignIn,
+    join as _join,
+    intersection as _intersection,
+    sortBy as _sortBy,
+    filter as _filter,
+    defaults as _defaults,
+    difference as _difference,
+    merge as _merge,
+    times as _times,
+    toArray as _toArray,
+    keys as _keys,
+    flatten as _flatten,
+    concat as _concat,
+    orderBy as _orderBy,
+
+} from "lodash"
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
+
+class MultipleNetwork extends Component {
+
+
+
+ 
+
+
+    render () {
+
+        const energyConsumptionRoute = [];
+        const testInfo = [];
+        const testInfo1 = [];
+    //    _forEach(myInfo &&  myInfo.energyConsumption.consumptionDetails[0].energyConsumption,
+    //         eachStop => {
+    //             eachStop.cycles.length ? _forEach(eachStop.cycles, (eachCycle, i) => {
+
+
+    //                 if (eachCycle.label == "Cycle 1") {
+    //                     testInfo.push([
+    //                         eachCycle.label,
+    //                         eachStop.legName,
+    //                         eachCycle.cycleNo,
+    //                         eachCycle.hvac,
+    //                         eachCycle.losses,
+    //                         eachCycle.traction,
+    //                         eachCycle.aux
+    //                     ])
+
+    //                 } else {
+    //                     testInfo1.push([
+    //                         eachCycle.label,
+    //                         eachStop.legName,
+    //                         eachCycle.cycleNo,
+    //                         eachCycle.hvac,
+    //                         eachCycle.losses,
+    //                         eachCycle.traction,
+    //                         eachCycle.aux
+    //                     ])
+
+    //                 }
+                   
+
+    //             }) : null
+
+               
+    //         })
+   
+
+    const getRow = ({
+       
+        label,
+         cycleNo,
+        // svdSOC,
+        // svdTime,
+        // speedDistance,
+        // speed
+      }) => {
+        return [
+           
+            label,
+           cycleNo,
+        //   svdSOC,
+        //   svdTime,
+        //   speedDistance,
+        //   speed
+        ]
+      }
+      //console.log("trat1",trat1)
+      const userInfo1={};
+      _forEach(myInfo.energyConsumption.consumptionDetails, route => {
+        userInfo1[route.routeName] = [];
+        _times(route.cycles, cycleIndex => {
+            _times(route.energyConsumption.length, itemIndex => {
+                console.log("Route findindex" , itemIndex, route.energyConsumption[itemIndex].cycles[cycleIndex]);
+                console.log("legno" ,itemIndex, route.energyConsumption[itemIndex])
+            const { label ,cycleNo } = route.energyConsumption[itemIndex].cycles[cycleIndex];
+            //const{legName} =  route.energyConsumption[itemIndex];
+        //     // const { distance: speedDistance, speed } = route.speedVsDistance[cycleIndex];
+            
+            userInfo1[route.routeName].push(getRow({
+               
+                label,
+                cycleNo: itemIndex==0 ? cycleNo : "",
+               
+        //     //   svdSOC: svdSOC[itemIndex],
+        //     //   svdTime: svdTime[itemIndex],
+        //     //   speedDistance: speedDistance[itemIndex],
+        //     //   speed: speed[itemIndex]
+            }))
+          })
+        })
+      })
+
+      console.log("userInfo1--" ,userInfo1)
+        // const finalInfo = _concat(testInfo, testInfo1);
+        // console.log("finalInfo" ,finalInfo )
+        // console.log("myInfo", myInfo.energyConsumption.consumptionDetails);
+
+
+
+
+       const  routexcycleyConsumption = [
+     
+            {
+                ySteps: 1,
+                columns: ["Enery Consumption per Leg"],
+                data: ""
+            },
+            {
+                columns: ["Label", "LegName", "CycleNo", "HVAC consumed (kWh)", "Losses (kWh)", "Traction Consumed (kWh)", "Aux consumed (kWh)"],
+                // data: energyConsumptionRoute
+                data: userInfo1
+            }
+    
+        ];
+
+
+        // sto test multiple networks
+        const routeNames= [];
+    _forEach( myInfo.energyConsumption.consumptionDetails,(step1 ,i) => {
+
+        step1.energyConsumption.length ? _forEach(step1.energyConsumption ,(step2 ,i) => {
+
+            
+        // routeNames.push([
+        //     step1.routeName
+        // ])
+
+        
+
+        console.log("step2" , step2);
+       // console.log("routeNames " , routeNames)
+
+    }):null
+       
+
+    })
+
+
+
+        //Eno test multiple networks
+
+         return (
+            <div>
+                <h2>export to xlxs format with multiple sheet </h2>
+                <ExcelFile element={<button>Download Data</button>}>
+                    <ExcelSheet dataSet={routexcycleyConsumption} alignment="" name="Consumption Details" />
+                </ExcelFile>
+            </div>
+         )
+    }
+}
+
+export default MultipleNetwork;
+
+
+
+
+
+const myInfo = {
+   "energyConsumption": {
+     
+     "consumptionDetails": [
+       {
+         "routeName": "BarcelonaL6",
+         "cycles": 3,
+         "averageConsumption": -1,
+         "energyConsumption": [
+           {
+             "legName": "Leg 0",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.158,
+                 "aux": 0.111,
+                 "hvac": 0,
+                 "losses": 0.009
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": -0.158,
+                 "aux": 0.111,
+                 "hvac": 0,
+                 "losses": 0.009
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": -0.158,
+                 "aux": 0.111,
+                 "hvac": 0,
+                 "losses": 0.009
+               }
+             ]
+           },
+           {
+             "legName": "Leg 1",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.021,
+                 "aux": 0.248,
+                 "hvac": 0,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": -0.021,
+                 "aux": 0.248,
+                 "hvac": 0,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": -0.021,
+                 "aux": 0.248,
+                 "hvac": 0,
+                 "losses": 0.012
+               }
+             ]
+           },
+           {
+             "legName": "Leg 2",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.272,
+                 "aux": 0.229,
+                 "hvac": 0,
+                 "losses": 0.016
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.272,
+                 "aux": 0.229,
+                 "hvac": 0,
+                 "losses": 0.016
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.272,
+                 "aux": 0.229,
+                 "hvac": 0,
+                 "losses": 0.016
+               }
+             ]
+           },
+           {
+             "legName": "Leg 3",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.055,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.055,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.055,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.007
+               }
+             ]
+           },
+           {
+             "legName": "Leg 4",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.305,
+                 "aux": 0.392,
+                 "hvac": 1.217,
+                 "losses": 0.028
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.305,
+                 "aux": 0.392,
+                 "hvac": 1.217,
+                 "losses": 0.028
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.305,
+                 "aux": 0.392,
+                 "hvac": 1.217,
+                 "losses": 0.028
+               }
+             ]
+           },
+           {
+             "legName": "Leg 5",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.077,
+                 "aux": 0.321,
+                 "hvac": 0.967,
+                 "losses": 0.015
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": -0.077,
+                 "aux": 0.321,
+                 "hvac": 0.967,
+                 "losses": 0.015
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": -0.077,
+                 "aux": 0.321,
+                 "hvac": 0.967,
+                 "losses": 0.015
+               }
+             ]
+           },
+           {
+             "legName": "Leg 6",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.269,
+                 "aux": 0.217,
+                 "hvac": 0.6,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.269,
+                 "aux": 0.217,
+                 "hvac": 0.6,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.269,
+                 "aux": 0.217,
+                 "hvac": 0.6,
+                 "losses": 0.012
+               }
+             ]
+           },
+           {
+             "legName": "Leg 7",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.284,
+                 "aux": 0.243,
+                 "hvac": 0.692,
+                 "losses": 0.018
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.284,
+                 "aux": 0.243,
+                 "hvac": 0.692,
+                 "losses": 0.018
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.284,
+                 "aux": 0.243,
+                 "hvac": 0.692,
+                 "losses": 0.018
+               }
+             ]
+           },
+           {
+             "legName": "Leg 8",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.095,
+                 "aux": 0.269,
+                 "hvac": 0.783,
+                 "losses": 0.013
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.095,
+                 "aux": 0.269,
+                 "hvac": 0.783,
+                 "losses": 0.013
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.095,
+                 "aux": 0.269,
+                 "hvac": 0.783,
+                 "losses": 0.013
+               }
+             ]
+           },
+           {
+             "legName": "Leg 9",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.063,
+                 "aux": 0.286,
+                 "hvac": 0.842,
+                 "losses": 0.019
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": -0.063,
+                 "aux": 0.286,
+                 "hvac": 0.842,
+                 "losses": 0.019
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": -0.063,
+                 "aux": 0.286,
+                 "hvac": 0.842,
+                 "losses": 0.019
+               }
+             ]
+           },
+           {
+             "legName": "Leg 10",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.17,
+                 "aux": 0.208,
+                 "hvac": 0.567,
+                 "losses": 0.009
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": -0.17,
+                 "aux": 0.208,
+                 "hvac": 0.567,
+                 "losses": 0.009
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": -0.17,
+                 "aux": 0.208,
+                 "hvac": 0.567,
+                 "losses": 0.009
+               }
+             ]
+           },
+           {
+             "legName": "Leg 11",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.077,
+                 "aux": 0.144,
+                 "hvac": 0.341,
+                 "losses": 0.006
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": -0.077,
+                 "aux": 0.144,
+                 "hvac": 0.341,
+                 "losses": 0.006
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": -0.077,
+                 "aux": 0.144,
+                 "hvac": 0.341,
+                 "losses": 0.006
+               }
+             ]
+           },
+           {
+             "legName": "Leg 12",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.088,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.006
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": -0.088,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.006
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": -0.088,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.006
+               }
+             ]
+           },
+           {
+             "legName": "Leg 13",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.159,
+                 "aux": 0.229,
+                 "hvac": 0.642,
+                 "losses": 0.02
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.159,
+                 "aux": 0.229,
+                 "hvac": 0.642,
+                 "losses": 0.02
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.159,
+                 "aux": 0.229,
+                 "hvac": 0.642,
+                 "losses": 0.02
+               }
+             ]
+           },
+           {
+             "legName": "Leg 14",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.195,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.022
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.195,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.022
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.195,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.022
+               }
+             ]
+           },
+           {
+             "legName": "Leg 15",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.254,
+                 "aux": 0.307,
+                 "hvac": 0.917,
+                 "losses": 0.02
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.254,
+                 "aux": 0.307,
+                 "hvac": 0.917,
+                 "losses": 0.02
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.254,
+                 "aux": 0.307,
+                 "hvac": 0.917,
+                 "losses": 0.02
+               }
+             ]
+           },
+           {
+             "legName": "Leg 16",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 1.113,
+                 "aux": 0.449,
+                 "hvac": 1.417,
+                 "losses": 0.193
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 1.113,
+                 "aux": 0.449,
+                 "hvac": 1.417,
+                 "losses": 0.193
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 1.113,
+                 "aux": 0.449,
+                 "hvac": 1.417,
+                 "losses": 0.193
+               }
+             ]
+           },
+           {
+             "legName": "Leg 17",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.5,
+                 "aux": 0.309,
+                 "hvac": 0.925,
+                 "losses": 0.211
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.5,
+                 "aux": 0.309,
+                 "hvac": 0.925,
+                 "losses": 0.211
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.5,
+                 "aux": 0.309,
+                 "hvac": 0.925,
+                 "losses": 0.211
+               }
+             ]
+           },
+           {
+             "legName": "Leg 18",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.532,
+                 "aux": 0.498,
+                 "hvac": 1.592,
+                 "losses": 0.041
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.532,
+                 "aux": 0.498,
+                 "hvac": 1.592,
+                 "losses": 0.041
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.532,
+                 "aux": 0.498,
+                 "hvac": 1.592,
+                 "losses": 0.041
+               }
+             ]
+           },
+           {
+             "legName": "Leg 19",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.156,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.156,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.156,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.012
+               }
+             ]
+           },
+           {
+             "legName": "Leg 20",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.835,
+                 "aux": 0.298,
+                 "hvac": 0.883,
+                 "losses": 0.218
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.835,
+                 "aux": 0.298,
+                 "hvac": 0.883,
+                 "losses": 0.218
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.835,
+                 "aux": 0.298,
+                 "hvac": 0.883,
+                 "losses": 0.218
+               }
+             ]
+           },
+           {
+             "legName": "Leg 21",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.165,
+                 "aux": 0.72,
+                 "hvac": 0.517,
+                 "losses": 0.654
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.165,
+                 "aux": 0.72,
+                 "hvac": 0.517,
+                 "losses": 0.654
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.165,
+                 "aux": 0.72,
+                 "hvac": 0.517,
+                 "losses": 0.654
+               }
+             ]
+           },
+           {
+             "legName": "Leg 22",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.319,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.024
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.319,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.024
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.319,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.024
+               }
+             ]
+           },
+           {
+             "legName": "Leg 23",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.217,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.009
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.217,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.009
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.217,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.009
+               }
+             ]
+           },
+           {
+             "legName": "Leg 24",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.768,
+                 "aux": 0.243,
+                 "hvac": 0.692,
+                 "losses": 0.109
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.768,
+                 "aux": 0.243,
+                 "hvac": 0.692,
+                 "losses": 0.109
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.768,
+                 "aux": 0.243,
+                 "hvac": 0.692,
+                 "losses": 0.109
+               }
+             ]
+           },
+           {
+             "legName": "Leg 25",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 1.291,
+                 "aux": 0.607,
+                 "hvac": 1.975,
+                 "losses": 0.062
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 1.291,
+                 "aux": 0.607,
+                 "hvac": 1.975,
+                 "losses": 0.062
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 1.291,
+                 "aux": 0.607,
+                 "hvac": 1.975,
+                 "losses": 0.062
+               }
+             ]
+           },
+           {
+             "legName": "Leg 26",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.385,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.013
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.385,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.013
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.385,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.013
+               }
+             ]
+           },
+           {
+             "legName": "Leg 27",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.475,
+                 "aux": 0.205,
+                 "hvac": 0.558,
+                 "losses": 0.05
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.475,
+                 "aux": 0.205,
+                 "hvac": 0.558,
+                 "losses": 0.05
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.475,
+                 "aux": 0.205,
+                 "hvac": 0.558,
+                 "losses": 0.05
+               }
+             ]
+           },
+           {
+             "legName": "Leg 28",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.453,
+                 "aux": 0.201,
+                 "hvac": 0.542,
+                 "losses": 0.019
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.453,
+                 "aux": 0.201,
+                 "hvac": 0.542,
+                 "losses": 0.019
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.453,
+                 "aux": 0.201,
+                 "hvac": 0.542,
+                 "losses": 0.019
+               }
+             ]
+           },
+           {
+             "legName": "Leg 29",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.445,
+                 "aux": 0.229,
+                 "hvac": 0.641,
+                 "losses": 0.028
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.445,
+                 "aux": 0.229,
+                 "hvac": 0.641,
+                 "losses": 0.028
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.445,
+                 "aux": 0.229,
+                 "hvac": 0.641,
+                 "losses": 0.028
+               }
+             ]
+           },
+           {
+             "legName": "Leg 30",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.176,
+                 "aux": 0.112,
+                 "hvac": 0.229,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.176,
+                 "aux": 0.112,
+                 "hvac": 0.229,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.176,
+                 "aux": 0.112,
+                 "hvac": 0.229,
+                 "losses": 0.007
+               }
+             ]
+           },
+           {
+             "legName": "Leg 31",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.646,
+                 "aux": 0.191,
+                 "hvac": 0.508,
+                 "losses": 0.025
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.646,
+                 "aux": 0.191,
+                 "hvac": 0.508,
+                 "losses": 0.025
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.646,
+                 "aux": 0.191,
+                 "hvac": 0.508,
+                 "losses": 0.025
+               }
+             ]
+           },
+           {
+             "legName": "Leg 32",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.429,
+                 "aux": 0.13,
+                 "hvac": 0.292,
+                 "losses": 0.02
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.429,
+                 "aux": 0.13,
+                 "hvac": 0.292,
+                 "losses": 0.02
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.429,
+                 "aux": 0.13,
+                 "hvac": 0.292,
+                 "losses": 0.02
+               }
+             ]
+           },
+           {
+             "legName": "Leg 33",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.391,
+                 "aux": 0.109,
+                 "hvac": 0.217,
+                 "losses": 0.03
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.391,
+                 "aux": 0.109,
+                 "hvac": 0.217,
+                 "losses": 0.03
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.391,
+                 "aux": 0.109,
+                 "hvac": 0.217,
+                 "losses": 0.03
+               }
+             ]
+           },
+           {
+             "legName": "Leg 34",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.515,
+                 "aux": 0.139,
+                 "hvac": 0.325,
+                 "losses": 0.018
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.515,
+                 "aux": 0.139,
+                 "hvac": 0.325,
+                 "losses": 0.018
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.515,
+                 "aux": 0.139,
+                 "hvac": 0.325,
+                 "losses": 0.018
+               }
+             ]
+           },
+           {
+             "legName": "Leg 35",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.893,
+                 "aux": 0.279,
+                 "hvac": 0.817,
+                 "losses": 0.042
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.893,
+                 "aux": 0.279,
+                 "hvac": 0.817,
+                 "losses": 0.042
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.893,
+                 "aux": 0.279,
+                 "hvac": 0.817,
+                 "losses": 0.042
+               }
+             ]
+           },
+           {
+             "legName": "Leg 36",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.573,
+                 "aux": 0.274,
+                 "hvac": 0.8,
+                 "losses": 0.023
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.573,
+                 "aux": 0.274,
+                 "hvac": 0.8,
+                 "losses": 0.023
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.573,
+                 "aux": 0.274,
+                 "hvac": 0.8,
+                 "losses": 0.023
+               }
+             ]
+           },
+           {
+             "legName": "Leg 37",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.368,
+                 "aux": 0.234,
+                 "hvac": 0.658,
+                 "losses": 0.027
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.368,
+                 "aux": 0.234,
+                 "hvac": 0.658,
+                 "losses": 0.027
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.368,
+                 "aux": 0.234,
+                 "hvac": 0.658,
+                 "losses": 0.027
+               }
+             ]
+           },
+           {
+             "legName": "Leg 38",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.37,
+                 "aux": 0.224,
+                 "hvac": 0.625,
+                 "losses": 0.03
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.37,
+                 "aux": 0.224,
+                 "hvac": 0.625,
+                 "losses": 0.03
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.37,
+                 "aux": 0.224,
+                 "hvac": 0.625,
+                 "losses": 0.03
+               }
+             ]
+           },
+           {
+             "legName": "Leg 39",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.93,
+                 "aux": 0.314,
+                 "hvac": 0.942,
+                 "losses": 0.035
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.93,
+                 "aux": 0.314,
+                 "hvac": 0.942,
+                 "losses": 0.035
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.93,
+                 "aux": 0.314,
+                 "hvac": 0.942,
+                 "losses": 0.035
+               }
+             ]
+           },
+           {
+             "legName": "Leg 40",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.51,
+                 "aux": 0.156,
+                 "hvac": 0.383,
+                 "losses": 0.016
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.51,
+                 "aux": 0.156,
+                 "hvac": 0.383,
+                 "losses": 0.016
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.51,
+                 "aux": 0.156,
+                 "hvac": 0.383,
+                 "losses": 0.016
+               }
+             ]
+           },
+           {
+             "legName": "Leg 41",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.856,
+                 "aux": 0.205,
+                 "hvac": 0.558,
+                 "losses": 0.028
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.856,
+                 "aux": 0.205,
+                 "hvac": 0.558,
+                 "losses": 0.028
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.856,
+                 "aux": 0.205,
+                 "hvac": 0.558,
+                 "losses": 0.028
+               }
+             ]
+           },
+           {
+             "legName": "Leg 42",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.698,
+                 "aux": 0.236,
+                 "hvac": 0.667,
+                 "losses": 0.035
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.698,
+                 "aux": 0.236,
+                 "hvac": 0.667,
+                 "losses": 0.035
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.698,
+                 "aux": 0.236,
+                 "hvac": 0.667,
+                 "losses": 0.035
+               }
+             ]
+           },
+           {
+             "legName": "Leg 43",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.329,
+                 "aux": 0.158,
+                 "hvac": 0.392,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.329,
+                 "aux": 0.158,
+                 "hvac": 0.392,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": 0.329,
+                 "aux": 0.158,
+                 "hvac": 0.392,
+                 "losses": 0.012
+               }
+             ]
+           },
+           {
+             "legName": "Leg 44",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.074,
+                 "aux": 0.992,
+                 "hvac": 0.466,
+                 "losses": 2.384
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": -0.074,
+                 "aux": 0.992,
+                 "hvac": 0.466,
+                 "losses": 2.384
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "traction": -0.074,
+                 "aux": 0.992,
+                 "hvac": 0.466,
+                 "losses": 2.384
+               }
+             ]
+           }
+         ],
+         "charging": [
+           {
+             "busStopName": "Bus stop 1",
+             "stationName": "TFS-500kW",
+             "stationType": "TFS",
+             "ratedPower": 500,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 59.25,
+                 "chargingTime": 480,
+                 "dwellTime": 484
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 59.25,
+                 "chargingTime": 480,
+                 "dwellTime": 484
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 2",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 3",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 4",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 5",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 6",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 7",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 8",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 9",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 10",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 11",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 12",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 13",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 14",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 15",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 16",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 17",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 18",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 19",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 20",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 21",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 22",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 23",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 24",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 25",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 26",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 27",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 28",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 29",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 30",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 31",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 32",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 33",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 34",
+             "stationName": "TFS-500kW",
+             "stationType": "TFS",
+             "ratedPower": 500,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 13.061,
+                 "chargingTime": 111,
+                 "dwellTime": 397
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 13.061,
+                 "chargingTime": 111,
+                 "dwellTime": 397
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 35",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 36",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 37",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 38",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 39",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 40",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 41",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 42",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 43",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 44",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 45",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 46",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 47",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 48",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 49",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 50",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 51",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 52",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 53",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 54",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 55",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 56",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 57",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 58",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 59",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 60",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 61",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 62",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 63",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 64",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 65",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 66",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           }
+         ]
+       },
+       {
+         "routeName": "BarcelonaLV21",
+         "cycles": 1,
+         "averageConsumption": -1,
+         "energyConsumption": [
+           {
+             "legName": "Leg 0",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.918,
+                 "aux": 0.189,
+                 "hvac": 0,
+                 "losses": 0.02
+               }
+             ]
+           },
+           {
+             "legName": "Leg 1",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.04,
+                 "aux": 0.38,
+                 "hvac": 0,
+                 "losses": 0.02
+               }
+             ]
+           },
+           {
+             "legName": "Leg 2",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 2.262,
+                 "aux": 1.367,
+                 "hvac": 4.487,
+                 "losses": 0.197
+               }
+             ]
+           },
+           {
+             "legName": "Leg 3",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.056,
+                 "aux": 1.228,
+                 "hvac": 4.167,
+                 "losses": 0.035
+               }
+             ]
+           },
+           {
+             "legName": "Leg 4",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.55,
+                 "aux": 0.215,
+                 "hvac": 0.592,
+                 "losses": 0.152
+               }
+             ]
+           },
+           {
+             "legName": "Leg 5",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.288,
+                 "aux": 0.583,
+                 "hvac": 1.892,
+                 "losses": 0.175
+               }
+             ]
+           },
+           {
+             "legName": "Leg 6",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.468,
+                 "aux": 0.815,
+                 "hvac": 2.708,
+                 "losses": 0.031
+               }
+             ]
+           },
+           {
+             "legName": "Leg 7",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 2.33,
+                 "aux": 0.725,
+                 "hvac": 2.391,
+                 "losses": 0.4
+               }
+             ]
+           },
+           {
+             "legName": "Leg 8",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.335,
+                 "aux": 0.276,
+                 "hvac": 0.808,
+                 "losses": 0.026
+               }
+             ]
+           },
+           {
+             "legName": "Leg 9",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 9.915,
+                 "aux": 3.098,
+                 "hvac": 10.766,
+                 "losses": 1.338
+               }
+             ]
+           },
+           {
+             "legName": "Leg 10",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.432,
+                 "aux": 0.583,
+                 "hvac": 1.892,
+                 "losses": 0.035
+               }
+             ]
+           },
+           {
+             "legName": "Leg 11",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.176,
+                 "aux": 0.34,
+                 "hvac": 1.033,
+                 "losses": 0.025
+               }
+             ]
+           },
+           {
+             "legName": "Leg 12",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.626,
+                 "aux": 0.217,
+                 "hvac": 0.6,
+                 "losses": 0.007
+               }
+             ]
+           },
+           {
+             "legName": "Leg 13",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.004,
+                 "aux": 0.46,
+                 "hvac": 1.458,
+                 "losses": 0.03
+               }
+             ]
+           },
+           {
+             "legName": "Leg 14",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.168,
+                 "aux": 0.444,
+                 "hvac": 1.4,
+                 "losses": 0.034
+               }
+             ]
+           },
+           {
+             "legName": "Leg 15",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.58,
+                 "aux": 0.805,
+                 "hvac": 2.675,
+                 "losses": 0.044
+               }
+             ]
+           },
+           {
+             "legName": "Leg 16",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.334,
+                 "aux": 0.437,
+                 "hvac": 1.375,
+                 "losses": 0.037
+               }
+             ]
+           },
+           {
+             "legName": "Leg 17",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.951,
+                 "aux": 0.956,
+                 "hvac": 3.208,
+                 "losses": 0.102
+               }
+             ]
+           },
+           {
+             "legName": "Leg 18",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.286,
+                 "aux": 0.406,
+                 "hvac": 1.267,
+                 "losses": 0.033
+               }
+             ]
+           },
+           {
+             "legName": "Leg 19",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.45,
+                 "aux": 0.479,
+                 "hvac": 1.525,
+                 "losses": 0.038
+               }
+             ]
+           },
+           {
+             "legName": "Leg 20",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.872,
+                 "aux": 0.649,
+                 "hvac": 2.125,
+                 "losses": 0.061
+               }
+             ]
+           },
+           {
+             "legName": "Leg 21",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.791,
+                 "aux": 2.696,
+                 "hvac": 3.283,
+                 "losses": 4.99
+               }
+             ]
+           },
+           {
+             "legName": "Leg 22",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.395,
+                 "aux": 0.357,
+                 "hvac": 1.092,
+                 "losses": 0.02
+               }
+             ]
+           },
+           {
+             "legName": "Leg 23",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.643,
+                 "aux": 0.682,
+                 "hvac": 2.242,
+                 "losses": 0.032
+               }
+             ]
+           },
+           {
+             "legName": "Leg 24",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.585,
+                 "aux": 0.477,
+                 "hvac": 1.517,
+                 "losses": 0.026
+               }
+             ]
+           },
+           {
+             "legName": "Leg 25",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.356,
+                 "aux": 0.156,
+                 "hvac": 0.383,
+                 "losses": 0.009
+               }
+             ]
+           },
+           {
+             "legName": "Leg 26",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 1.235,
+                 "aux": 0.876,
+                 "hvac": 2.925,
+                 "losses": 0.054
+               }
+             ]
+           },
+           {
+             "legName": "Leg 27",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.412,
+                 "aux": 0.172,
+                 "hvac": 0.442,
+                 "losses": 0.127
+               }
+             ]
+           },
+           {
+             "legName": "Leg 28",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.651,
+                 "aux": 0.189,
+                 "hvac": 0.5,
+                 "losses": 0.024
+               }
+             ]
+           },
+           {
+             "legName": "Leg 29",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.766,
+                 "aux": 0.357,
+                 "hvac": 1.092,
+                 "losses": 0.029
+               }
+             ]
+           },
+           {
+             "legName": "Leg 30",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.702,
+                 "aux": 0.142,
+                 "hvac": 0.333,
+                 "losses": 0.019
+               }
+             ]
+           },
+           {
+             "legName": "Leg 31",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 1.003,
+                 "aux": 0.309,
+                 "hvac": 0.925,
+                 "losses": 0.033
+               }
+             ]
+           },
+           {
+             "legName": "Leg 32",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 1.211,
+                 "aux": 0.522,
+                 "hvac": 1.675,
+                 "losses": 0.049
+               }
+             ]
+           },
+           {
+             "legName": "Leg 33",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.967,
+                 "aux": 0.116,
+                 "hvac": 0.243,
+                 "losses": 0.039
+               }
+             ]
+           },
+           {
+             "legName": "Leg 34",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.99,
+                 "aux": 0.123,
+                 "hvac": 0.266,
+                 "losses": 0.05
+               }
+             ]
+           },
+           {
+             "legName": "Leg 35",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 10.199,
+                 "aux": 0.968,
+                 "hvac": 3.25,
+                 "losses": 4.014
+               }
+             ]
+           },
+           {
+             "legName": "Leg 36",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.365,
+                 "aux": 0.125,
+                 "hvac": 0.275,
+                 "losses": 0.026
+               }
+             ]
+           },
+           {
+             "legName": "Leg 37",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.84,
+                 "aux": 0.246,
+                 "hvac": 0.7,
+                 "losses": 0.523
+               }
+             ]
+           },
+           {
+             "legName": "Leg 38",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 1.551,
+                 "aux": 0.182,
+                 "hvac": 0.475,
+                 "losses": 0.383
+               }
+             ]
+           },
+           {
+             "legName": "Leg 39",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.947,
+                 "aux": 0.156,
+                 "hvac": 0.383,
+                 "losses": 0.318
+               }
+             ]
+           },
+           {
+             "legName": "Leg 40",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.766,
+                 "aux": 0.383,
+                 "hvac": 1.183,
+                 "losses": 0.049
+               }
+             ]
+           },
+           {
+             "legName": "Leg 41",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 1.113,
+                 "aux": 0.475,
+                 "hvac": 1.508,
+                 "losses": 0.051
+               }
+             ]
+           },
+           {
+             "legName": "Leg 42",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 1.843,
+                 "aux": 1.119,
+                 "hvac": 3.783,
+                 "losses": 0.112
+               }
+             ]
+           },
+           {
+             "legName": "Leg 43",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.404,
+                 "aux": 0.264,
+                 "hvac": 0.767,
+                 "losses": 0.023
+               }
+             ]
+           },
+           {
+             "legName": "Leg 44",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 2.161,
+                 "aux": 0.555,
+                 "hvac": 1.791,
+                 "losses": 0.12
+               }
+             ]
+           },
+           {
+             "legName": "Leg 45",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 1.774,
+                 "aux": 0.451,
+                 "hvac": 1.425,
+                 "losses": 0.141
+               }
+             ]
+           },
+           {
+             "legName": "Leg 46",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.098,
+                 "aux": 2.151,
+                 "hvac": 1.892,
+                 "losses": 5.075
+               }
+             ]
+           }
+         ],
+         "charging": [
+           {
+             "busStopName": "Bus stop 1",
+             "stationName": "TFS-500kW",
+             "stationType": "TFS",
+             "ratedPower": 500,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 44.435,
+                 "chargingTime": 360,
+                 "dwellTime": 364
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 44.435,
+                 "chargingTime": 360,
+                 "dwellTime": 364
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "rechargedEnergy": 44.435,
+                 "chargingTime": 360,
+                 "dwellTime": 364
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 2",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 3",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 4",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 5",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 6",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 7",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 8",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 9",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 10",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 11",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 12",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 14",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 15",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 16",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 17",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 18",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 19",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 20",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 21",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 22",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 23",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 24",
+             "stationName": "TFS-500kW",
+             "stationType": "TFS",
+             "ratedPower": 500,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 11.918,
+                 "chargingTime": 98,
+                 "dwellTime": 243
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 11.918,
+                 "chargingTime": 98,
+                 "dwellTime": 243
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "rechargedEnergy": 11.918,
+                 "chargingTime": 98,
+                 "dwellTime": 243
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 25",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 26",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 27",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 28",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 29",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 30",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 31",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 32",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 33",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 34",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 35",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 36",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 37",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 38",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 39",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 40",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 41",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 42",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 43",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               },
+               {
+                 "cycleNo": 2,
+                 "label": "Cycle 3",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 44",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 45",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 46",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           }
+         ]
+       },
+       {
+         "routeName": "BarcelonaLH12",
+         "cycles": 2,
+         "averageConsumption": -1,
+         "energyConsumption": [
+           {
+             "legName": "Leg 0",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.022,
+                 "aux": 0.113,
+                 "hvac": 0,
+                 "losses": 0.003
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": -0.022,
+                 "aux": 0.113,
+                 "hvac": 0,
+                 "losses": 0.003
+               }
+             ]
+           },
+           {
+             "legName": "Leg 1",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.359,
+                 "aux": 0.246,
+                 "hvac": 0,
+                 "losses": 0.013
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.359,
+                 "aux": 0.246,
+                 "hvac": 0,
+                 "losses": 0.013
+               }
+             ]
+           },
+           {
+             "legName": "Leg 2",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.178,
+                 "aux": 0.182,
+                 "hvac": 0,
+                 "losses": 0.011
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.178,
+                 "aux": 0.182,
+                 "hvac": 0,
+                 "losses": 0.011
+               }
+             ]
+           },
+           {
+             "legName": "Leg 3",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.246,
+                 "aux": 0.177,
+                 "hvac": 0.458,
+                 "losses": 0.019
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.246,
+                 "aux": 0.177,
+                 "hvac": 0.458,
+                 "losses": 0.019
+               }
+             ]
+           },
+           {
+             "legName": "Leg 4",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.45,
+                 "aux": 0.21,
+                 "hvac": 0.575,
+                 "losses": 0.018
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.45,
+                 "aux": 0.21,
+                 "hvac": 0.575,
+                 "losses": 0.018
+               }
+             ]
+           },
+           {
+             "legName": "Leg 5",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.212,
+                 "aux": 0.17,
+                 "hvac": 0.433,
+                 "losses": 0.01
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.212,
+                 "aux": 0.17,
+                 "hvac": 0.433,
+                 "losses": 0.01
+               }
+             ]
+           },
+           {
+             "legName": "Leg 6",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.417,
+                 "aux": 0.205,
+                 "hvac": 0.558,
+                 "losses": 0.015
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.417,
+                 "aux": 0.205,
+                 "hvac": 0.558,
+                 "losses": 0.015
+               }
+             ]
+           },
+           {
+             "legName": "Leg 7",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.158,
+                 "aux": 0.139,
+                 "hvac": 0.325,
+                 "losses": 0.01
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.158,
+                 "aux": 0.139,
+                 "hvac": 0.325,
+                 "losses": 0.01
+               }
+             ]
+           },
+           {
+             "legName": "Leg 8",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.466,
+                 "aux": 0.179,
+                 "hvac": 0.467,
+                 "losses": 0.019
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.466,
+                 "aux": 0.179,
+                 "hvac": 0.467,
+                 "losses": 0.019
+               }
+             ]
+           },
+           {
+             "legName": "Leg 9",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.451,
+                 "aux": 0.194,
+                 "hvac": 0.517,
+                 "losses": 0.016
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.451,
+                 "aux": 0.194,
+                 "hvac": 0.517,
+                 "losses": 0.016
+               }
+             ]
+           },
+           {
+             "legName": "Leg 10",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.68,
+                 "aux": 0.241,
+                 "hvac": 0.683,
+                 "losses": 0.023
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.68,
+                 "aux": 0.241,
+                 "hvac": 0.683,
+                 "losses": 0.023
+               }
+             ]
+           },
+           {
+             "legName": "Leg 11",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.215,
+                 "aux": 0.123,
+                 "hvac": 0.267,
+                 "losses": 0.016
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.215,
+                 "aux": 0.123,
+                 "hvac": 0.267,
+                 "losses": 0.016
+               }
+             ]
+           },
+           {
+             "legName": "Leg 12",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.076,
+                 "aux": 0.25,
+                 "hvac": 0.716,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": -0.076,
+                 "aux": 0.25,
+                 "hvac": 0.716,
+                 "losses": 0.012
+               }
+             ]
+           },
+           {
+             "legName": "Leg 13",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.087,
+                 "aux": 0.149,
+                 "hvac": 0.358,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.087,
+                 "aux": 0.149,
+                 "hvac": 0.358,
+                 "losses": 0.007
+               }
+             ]
+           },
+           {
+             "legName": "Leg 14",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.299,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.021
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.299,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.021
+               }
+             ]
+           },
+           {
+             "legName": "Leg 15",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.312,
+                 "aux": 0.163,
+                 "hvac": 0.408,
+                 "losses": 0.009
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.312,
+                 "aux": 0.163,
+                 "hvac": 0.408,
+                 "losses": 0.009
+               }
+             ]
+           },
+           {
+             "legName": "Leg 16",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.232,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.009
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.232,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.009
+               }
+             ]
+           },
+           {
+             "legName": "Leg 17",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.281,
+                 "aux": 0.168,
+                 "hvac": 0.425,
+                 "losses": 0.008
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.281,
+                 "aux": 0.168,
+                 "hvac": 0.425,
+                 "losses": 0.008
+               }
+             ]
+           },
+           {
+             "legName": "Leg 18",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.211,
+                 "aux": 0.201,
+                 "hvac": 0.542,
+                 "losses": 0.013
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.211,
+                 "aux": 0.201,
+                 "hvac": 0.542,
+                 "losses": 0.013
+               }
+             ]
+           },
+           {
+             "legName": "Leg 19",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.076,
+                 "aux": 0.156,
+                 "hvac": 0.383,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.076,
+                 "aux": 0.156,
+                 "hvac": 0.383,
+                 "losses": 0.007
+               }
+             ]
+           },
+           {
+             "legName": "Leg 20",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.13,
+                 "aux": 0.172,
+                 "hvac": 0.442,
+                 "losses": 0.021
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.13,
+                 "aux": 0.172,
+                 "hvac": 0.442,
+                 "losses": 0.021
+               }
+             ]
+           },
+           {
+             "legName": "Leg 21",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.193,
+                 "aux": 0.22,
+                 "hvac": 0.608,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.193,
+                 "aux": 0.22,
+                 "hvac": 0.608,
+                 "losses": 0.012
+               }
+             ]
+           },
+           {
+             "legName": "Leg 22",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.189,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.022
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.189,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.022
+               }
+             ]
+           },
+           {
+             "legName": "Leg 23",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.005,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.005,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.007
+               }
+             ]
+           },
+           {
+             "legName": "Leg 24",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.837,
+                 "aux": 0.267,
+                 "hvac": 0.775,
+                 "losses": 0.355
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.837,
+                 "aux": 0.267,
+                 "hvac": 0.775,
+                 "losses": 0.355
+               }
+             ]
+           },
+           {
+             "legName": "Leg 25",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.908,
+                 "aux": 0.234,
+                 "hvac": 0.658,
+                 "losses": 0.171
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.908,
+                 "aux": 0.234,
+                 "hvac": 0.658,
+                 "losses": 0.171
+               }
+             ]
+           },
+           {
+             "legName": "Leg 26",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.336,
+                 "aux": 0.288,
+                 "hvac": 0.85,
+                 "losses": 0.031
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.336,
+                 "aux": 0.288,
+                 "hvac": 0.85,
+                 "losses": 0.031
+               }
+             ]
+           },
+           {
+             "legName": "Leg 27",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.295,
+                 "aux": 0.179,
+                 "hvac": 0.467,
+                 "losses": 0.02
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.295,
+                 "aux": 0.179,
+                 "hvac": 0.467,
+                 "losses": 0.02
+               }
+             ]
+           },
+           {
+             "legName": "Leg 28",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.161,
+                 "aux": 0.234,
+                 "hvac": 0.658,
+                 "losses": 0.022
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.161,
+                 "aux": 0.234,
+                 "hvac": 0.658,
+                 "losses": 0.022
+               }
+             ]
+           },
+           {
+             "legName": "Leg 29",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.15,
+                 "aux": 0.187,
+                 "hvac": 0.492,
+                 "losses": 0.021
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.15,
+                 "aux": 0.187,
+                 "hvac": 0.492,
+                 "losses": 0.021
+               }
+             ]
+           },
+           {
+             "legName": "Leg 30",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.155,
+                 "aux": 0.165,
+                 "hvac": 0.417,
+                 "losses": 0.009
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.155,
+                 "aux": 0.165,
+                 "hvac": 0.417,
+                 "losses": 0.009
+               }
+             ]
+           },
+           {
+             "legName": "Leg 31",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.572,
+                 "aux": 0.26,
+                 "hvac": 0.75,
+                 "losses": 0.025
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.572,
+                 "aux": 0.26,
+                 "hvac": 0.75,
+                 "losses": 0.025
+               }
+             ]
+           },
+           {
+             "legName": "Leg 32",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.42,
+                 "aux": 1.244,
+                 "hvac": 1.083,
+                 "losses": 0.782
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.42,
+                 "aux": 1.244,
+                 "hvac": 1.083,
+                 "losses": 0.782
+               }
+             ]
+           },
+           {
+             "legName": "Leg 33",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.218,
+                 "aux": 0.238,
+                 "hvac": 0.675,
+                 "losses": 0.021
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.218,
+                 "aux": 0.238,
+                 "hvac": 0.675,
+                 "losses": 0.021
+               }
+             ]
+           },
+           {
+             "legName": "Leg 34",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.095,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.01
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.095,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.01
+               }
+             ]
+           },
+           {
+             "legName": "Leg 35",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.279,
+                 "aux": 0.241,
+                 "hvac": 0.683,
+                 "losses": 0.02
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.279,
+                 "aux": 0.241,
+                 "hvac": 0.683,
+                 "losses": 0.02
+               }
+             ]
+           },
+           {
+             "legName": "Leg 36",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.394,
+                 "aux": 0.184,
+                 "hvac": 0.483,
+                 "losses": 0.022
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.394,
+                 "aux": 0.184,
+                 "hvac": 0.483,
+                 "losses": 0.022
+               }
+             ]
+           },
+           {
+             "legName": "Leg 37",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.613,
+                 "aux": 0.198,
+                 "hvac": 0.533,
+                 "losses": 0.033
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.613,
+                 "aux": 0.198,
+                 "hvac": 0.533,
+                 "losses": 0.033
+               }
+             ]
+           },
+           {
+             "legName": "Leg 38",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.385,
+                 "aux": 0.189,
+                 "hvac": 0.5,
+                 "losses": 0.05
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.385,
+                 "aux": 0.189,
+                 "hvac": 0.5,
+                 "losses": 0.05
+               }
+             ]
+           },
+           {
+             "legName": "Leg 39",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.472,
+                 "aux": 0.3,
+                 "hvac": 0.892,
+                 "losses": 0.029
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.472,
+                 "aux": 0.3,
+                 "hvac": 0.892,
+                 "losses": 0.029
+               }
+             ]
+           },
+           {
+             "legName": "Leg 40",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 1.083,
+                 "aux": 0.243,
+                 "hvac": 0.692,
+                 "losses": 0.347
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 1.083,
+                 "aux": 0.243,
+                 "hvac": 0.692,
+                 "losses": 0.347
+               }
+             ]
+           },
+           {
+             "legName": "Leg 41",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.065,
+                 "aux": 0.056,
+                 "hvac": 0.03,
+                 "losses": 0.002
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.065,
+                 "aux": 0.056,
+                 "hvac": 0.03,
+                 "losses": 0.002
+               }
+             ]
+           },
+           {
+             "legName": "Leg 42",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.682,
+                 "aux": 0.276,
+                 "hvac": 0.808,
+                 "losses": 0.185
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.682,
+                 "aux": 0.276,
+                 "hvac": 0.808,
+                 "losses": 0.185
+               }
+             ]
+           },
+           {
+             "legName": "Leg 43",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.354,
+                 "aux": 0.158,
+                 "hvac": 0.392,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.354,
+                 "aux": 0.158,
+                 "hvac": 0.392,
+                 "losses": 0.012
+               }
+             ]
+           },
+           {
+             "legName": "Leg 44",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.414,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.029
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.414,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.029
+               }
+             ]
+           },
+           {
+             "legName": "Leg 45",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.392,
+                 "aux": 0.231,
+                 "hvac": 0.65,
+                 "losses": 0.027
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.392,
+                 "aux": 0.231,
+                 "hvac": 0.65,
+                 "losses": 0.027
+               }
+             ]
+           },
+           {
+             "legName": "Leg 46",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.295,
+                 "aux": 0.165,
+                 "hvac": 0.417,
+                 "losses": 0.01
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.295,
+                 "aux": 0.165,
+                 "hvac": 0.417,
+                 "losses": 0.01
+               }
+             ]
+           },
+           {
+             "legName": "Leg 47",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.25,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.011
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.25,
+                 "aux": 0.146,
+                 "hvac": 0.35,
+                 "losses": 0.011
+               }
+             ]
+           },
+           {
+             "legName": "Leg 48",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.278,
+                 "aux": 0.222,
+                 "hvac": 0.617,
+                 "losses": 0.014
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.278,
+                 "aux": 0.222,
+                 "hvac": 0.617,
+                 "losses": 0.014
+               }
+             ]
+           },
+           {
+             "legName": "Leg 49",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.123,
+                 "aux": 0.17,
+                 "hvac": 0.433,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.123,
+                 "aux": 0.17,
+                 "hvac": 0.433,
+                 "losses": 0.007
+               }
+             ]
+           },
+           {
+             "legName": "Leg 50",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.084,
+                 "aux": 0.156,
+                 "hvac": 0.383,
+                 "losses": 0.008
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.084,
+                 "aux": 0.156,
+                 "hvac": 0.383,
+                 "losses": 0.008
+               }
+             ]
+           },
+           {
+             "legName": "Leg 51",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.077,
+                 "aux": 0.125,
+                 "hvac": 0.275,
+                 "losses": 0.013
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.077,
+                 "aux": 0.125,
+                 "hvac": 0.275,
+                 "losses": 0.013
+               }
+             ]
+           },
+           {
+             "legName": "Leg 52",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.288,
+                 "aux": 0.246,
+                 "hvac": 0.7,
+                 "losses": 0.021
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.288,
+                 "aux": 0.246,
+                 "hvac": 0.7,
+                 "losses": 0.021
+               }
+             ]
+           },
+           {
+             "legName": "Leg 53",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 1.305,
+                 "aux": 0.978,
+                 "hvac": 3.283,
+                 "losses": 0.054
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 1.305,
+                 "aux": 0.978,
+                 "hvac": 3.283,
+                 "losses": 0.054
+               }
+             ]
+           },
+           {
+             "legName": "Leg 54",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.443,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.017
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.443,
+                 "aux": 0.153,
+                 "hvac": 0.375,
+                 "losses": 0.017
+               }
+             ]
+           },
+           {
+             "legName": "Leg 55",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.227,
+                 "aux": 0.248,
+                 "hvac": 0.708,
+                 "losses": 0.023
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.227,
+                 "aux": 0.248,
+                 "hvac": 0.708,
+                 "losses": 0.023
+               }
+             ]
+           },
+           {
+             "legName": "Leg 56",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": -0.087,
+                 "aux": 0.215,
+                 "hvac": 0.591,
+                 "losses": 0.01
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": -0.087,
+                 "aux": 0.215,
+                 "hvac": 0.591,
+                 "losses": 0.01
+               }
+             ]
+           },
+           {
+             "legName": "Leg 57",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.017,
+                 "aux": 0.161,
+                 "hvac": 0.4,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.017,
+                 "aux": 0.161,
+                 "hvac": 0.4,
+                 "losses": 0.007
+               }
+             ]
+           },
+           {
+             "legName": "Leg 58",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.208,
+                 "aux": 0.399,
+                 "hvac": 1.242,
+                 "losses": 0.034
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.208,
+                 "aux": 0.399,
+                 "hvac": 1.242,
+                 "losses": 0.034
+               }
+             ]
+           },
+           {
+             "legName": "Leg 59",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.085,
+                 "aux": 0.194,
+                 "hvac": 0.517,
+                 "losses": 0.019
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.085,
+                 "aux": 0.194,
+                 "hvac": 0.517,
+                 "losses": 0.019
+               }
+             ]
+           },
+           {
+             "legName": "Leg 60",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.134,
+                 "aux": 0.17,
+                 "hvac": 0.433,
+                 "losses": 0.015
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.134,
+                 "aux": 0.17,
+                 "hvac": 0.433,
+                 "losses": 0.015
+               }
+             ]
+           },
+           {
+             "legName": "Leg 61",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.171,
+                 "aux": 0.191,
+                 "hvac": 0.508,
+                 "losses": 0.024
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.171,
+                 "aux": 0.191,
+                 "hvac": 0.508,
+                 "losses": 0.024
+               }
+             ]
+           },
+           {
+             "legName": "Leg 62",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.121,
+                 "aux": 0.125,
+                 "hvac": 0.275,
+                 "losses": 0.022
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.121,
+                 "aux": 0.125,
+                 "hvac": 0.275,
+                 "losses": 0.022
+               }
+             ]
+           },
+           {
+             "legName": "Leg 63",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.35,
+                 "aux": 0.179,
+                 "hvac": 0.466,
+                 "losses": 0.031
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.35,
+                 "aux": 0.179,
+                 "hvac": 0.466,
+                 "losses": 0.031
+               }
+             ]
+           },
+           {
+             "legName": "Leg 64",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.201,
+                 "aux": 0.139,
+                 "hvac": 0.325,
+                 "losses": 0.019
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.201,
+                 "aux": 0.139,
+                 "hvac": 0.325,
+                 "losses": 0.019
+               }
+             ]
+           },
+           {
+             "legName": "Leg 65",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.318,
+                 "aux": 1.341,
+                 "hvac": 0.7,
+                 "losses": 3.319
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.318,
+                 "aux": 1.341,
+                 "hvac": 0.7,
+                 "losses": 3.319
+               }
+             ]
+           }
+         ],
+         "charging": [
+           {
+             "busStopName": "Bus stop 1",
+             "stationName": "TFS-500kW",
+             "stationType": "TFS",
+             "ratedPower": 500,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 37.028,
+                 "chargingTime": 300,
+                 "dwellTime": 304
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 37.028,
+                 "chargingTime": 300,
+                 "dwellTime": 304
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 2",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 3",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 4",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 5",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 6",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 7",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 8",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 9",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 10",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 11",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 12",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 13",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 14",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 15",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 16",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 17",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 18",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 19",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 20",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 21",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 22",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 23",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 24",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 25",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 26",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 27",
+             "stationName": "TFS-500kW",
+             "stationType": "TFS",
+             "ratedPower": 500,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 19.087,
+                 "chargingTime": 160,
+                 "dwellTime": 434
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 19.087,
+                 "chargingTime": 160,
+                 "dwellTime": 434
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 28",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 29",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 30",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 31",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 32",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 33",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 34",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 35",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 36",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 37",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 38",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 39",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 40",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 41",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 42",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 43",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 44",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 45",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 46",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 47",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 48",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 49",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           }
+         ]
+       },
+       {
+         "routeName": "BarcelonaLH14",
+         "cycles": 2,
+         "averageConsumption": -1,
+         "energyConsumption": [
+           {
+             "legName": "Leg 0",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.452,
+                 "aux": 0.371,
+                 "hvac": 0,
+                 "losses": 0.013
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.452,
+                 "aux": 0.371,
+                 "hvac": 0,
+                 "losses": 0.013
+               }
+             ]
+           },
+           {
+             "legName": "Leg 1",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.076,
+                 "aux": 0.161,
+                 "hvac": 0,
+                 "losses": 0.003
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.076,
+                 "aux": 0.161,
+                 "hvac": 0,
+                 "losses": 0.003
+               }
+             ]
+           },
+           {
+             "legName": "Leg 2",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.065,
+                 "aux": 0.187,
+                 "hvac": 0.275,
+                 "losses": 0.01
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.065,
+                 "aux": 0.187,
+                 "hvac": 0.275,
+                 "losses": 0.01
+               }
+             ]
+           },
+           {
+             "legName": "Leg 3",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.221,
+                 "aux": 0.255,
+                 "hvac": 0.733,
+                 "losses": 0.014
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.221,
+                 "aux": 0.255,
+                 "hvac": 0.733,
+                 "losses": 0.014
+               }
+             ]
+           },
+           {
+             "legName": "Leg 4",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.181,
+                 "aux": 0.144,
+                 "hvac": 0.341,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.181,
+                 "aux": 0.144,
+                 "hvac": 0.341,
+                 "losses": 0.007
+               }
+             ]
+           },
+           {
+             "legName": "Leg 5",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.188,
+                 "aux": 0.165,
+                 "hvac": 0.417,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.188,
+                 "aux": 0.165,
+                 "hvac": 0.417,
+                 "losses": 0.007
+               }
+             ]
+           },
+           {
+             "legName": "Leg 6",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.179,
+                 "aux": 0.109,
+                 "hvac": 0.217,
+                 "losses": 0.016
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.179,
+                 "aux": 0.109,
+                 "hvac": 0.217,
+                 "losses": 0.016
+               }
+             ]
+           },
+           {
+             "legName": "Leg 7",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.245,
+                 "aux": 0.182,
+                 "hvac": 0.475,
+                 "losses": 0.014
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.245,
+                 "aux": 0.182,
+                 "hvac": 0.475,
+                 "losses": 0.014
+               }
+             ]
+           },
+           {
+             "legName": "Leg 8",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.236,
+                 "aux": 0.151,
+                 "hvac": 0.367,
+                 "losses": 0.008
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.236,
+                 "aux": 0.151,
+                 "hvac": 0.367,
+                 "losses": 0.008
+               }
+             ]
+           },
+           {
+             "legName": "Leg 9",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.349,
+                 "aux": 0.246,
+                 "hvac": 0.7,
+                 "losses": 0.017
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.349,
+                 "aux": 0.246,
+                 "hvac": 0.7,
+                 "losses": 0.017
+               }
+             ]
+           },
+           {
+             "legName": "Leg 10",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.237,
+                 "aux": 0.203,
+                 "hvac": 0.55,
+                 "losses": 0.011
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.237,
+                 "aux": 0.203,
+                 "hvac": 0.55,
+                 "losses": 0.011
+               }
+             ]
+           },
+           {
+             "legName": "Leg 11",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.429,
+                 "aux": 0.276,
+                 "hvac": 0.808,
+                 "losses": 0.025
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.429,
+                 "aux": 0.276,
+                 "hvac": 0.808,
+                 "losses": 0.025
+               }
+             ]
+           },
+           {
+             "legName": "Leg 12",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.507,
+                 "aux": 0.22,
+                 "hvac": 0.608,
+                 "losses": 0.081
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.507,
+                 "aux": 0.22,
+                 "hvac": 0.608,
+                 "losses": 0.081
+               }
+             ]
+           },
+           {
+             "legName": "Leg 13",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.141,
+                 "aux": 0.25,
+                 "hvac": 0.717,
+                 "losses": 0.014
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.141,
+                 "aux": 0.25,
+                 "hvac": 0.717,
+                 "losses": 0.014
+               }
+             ]
+           },
+           {
+             "legName": "Leg 14",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.24,
+                 "aux": 0.255,
+                 "hvac": 0.733,
+                 "losses": 0.015
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.24,
+                 "aux": 0.255,
+                 "hvac": 0.733,
+                 "losses": 0.015
+               }
+             ]
+           },
+           {
+             "legName": "Leg 15",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.298,
+                 "aux": 0.236,
+                 "hvac": 0.667,
+                 "losses": 0.019
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.298,
+                 "aux": 0.236,
+                 "hvac": 0.667,
+                 "losses": 0.019
+               }
+             ]
+           },
+           {
+             "legName": "Leg 16",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.267,
+                 "aux": 0.215,
+                 "hvac": 0.592,
+                 "losses": 0.012
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.267,
+                 "aux": 0.215,
+                 "hvac": 0.592,
+                 "losses": 0.012
+               }
+             ]
+           },
+           {
+             "legName": "Leg 17",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.31,
+                 "aux": 0.248,
+                 "hvac": 0.708,
+                 "losses": 0.017
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.31,
+                 "aux": 0.248,
+                 "hvac": 0.708,
+                 "losses": 0.017
+               }
+             ]
+           },
+           {
+             "legName": "Leg 18",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.17,
+                 "aux": 0.144,
+                 "hvac": 0.341,
+                 "losses": 0.008
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.17,
+                 "aux": 0.144,
+                 "hvac": 0.341,
+                 "losses": 0.008
+               }
+             ]
+           },
+           {
+             "legName": "Leg 19",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.292,
+                 "aux": 0.229,
+                 "hvac": 0.642,
+                 "losses": 0.022
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.292,
+                 "aux": 0.229,
+                 "hvac": 0.642,
+                 "losses": 0.022
+               }
+             ]
+           },
+           {
+             "legName": "Leg 20",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.341,
+                 "aux": 0.224,
+                 "hvac": 0.625,
+                 "losses": 0.023
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.341,
+                 "aux": 0.224,
+                 "hvac": 0.625,
+                 "losses": 0.023
+               }
+             ]
+           },
+           {
+             "legName": "Leg 21",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.26,
+                 "aux": 0.21,
+                 "hvac": 0.575,
+                 "losses": 0.016
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.26,
+                 "aux": 0.21,
+                 "hvac": 0.575,
+                 "losses": 0.016
+               }
+             ]
+           },
+           {
+             "legName": "Leg 22",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.269,
+                 "aux": 0.172,
+                 "hvac": 0.442,
+                 "losses": 0.021
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.269,
+                 "aux": 0.172,
+                 "hvac": 0.442,
+                 "losses": 0.021
+               }
+             ]
+           },
+           {
+             "legName": "Leg 23",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.336,
+                 "aux": 0.248,
+                 "hvac": 0.708,
+                 "losses": 0.026
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.336,
+                 "aux": 0.248,
+                 "hvac": 0.708,
+                 "losses": 0.026
+               }
+             ]
+           },
+           {
+             "legName": "Leg 24",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.389,
+                 "aux": 0.298,
+                 "hvac": 0.883,
+                 "losses": 0.048
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.389,
+                 "aux": 0.298,
+                 "hvac": 0.883,
+                 "losses": 0.048
+               }
+             ]
+           },
+           {
+             "legName": "Leg 25",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.458,
+                 "aux": 1.403,
+                 "hvac": 1.333,
+                 "losses": 1.066
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.458,
+                 "aux": 1.403,
+                 "hvac": 1.333,
+                 "losses": 1.066
+               }
+             ]
+           },
+           {
+             "legName": "Leg 26",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.322,
+                 "aux": 0.267,
+                 "hvac": 0.775,
+                 "losses": 0.014
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.322,
+                 "aux": 0.267,
+                 "hvac": 0.775,
+                 "losses": 0.014
+               }
+             ]
+           },
+           {
+             "legName": "Leg 27",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.631,
+                 "aux": 0.29,
+                 "hvac": 0.858,
+                 "losses": 0.049
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.631,
+                 "aux": 0.29,
+                 "hvac": 0.858,
+                 "losses": 0.049
+               }
+             ]
+           },
+           {
+             "legName": "Leg 28",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.207,
+                 "aux": 0.201,
+                 "hvac": 0.542,
+                 "losses": 0.018
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.207,
+                 "aux": 0.201,
+                 "hvac": 0.542,
+                 "losses": 0.018
+               }
+             ]
+           },
+           {
+             "legName": "Leg 29",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.243,
+                 "aux": 0.22,
+                 "hvac": 0.608,
+                 "losses": 0.013
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.243,
+                 "aux": 0.22,
+                 "hvac": 0.608,
+                 "losses": 0.013
+               }
+             ]
+           },
+           {
+             "legName": "Leg 30",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.257,
+                 "aux": 0.21,
+                 "hvac": 0.575,
+                 "losses": 0.014
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.257,
+                 "aux": 0.21,
+                 "hvac": 0.575,
+                 "losses": 0.014
+               }
+             ]
+           },
+           {
+             "legName": "Leg 31",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.119,
+                 "aux": 0.17,
+                 "hvac": 0.433,
+                 "losses": 0.007
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.119,
+                 "aux": 0.17,
+                 "hvac": 0.433,
+                 "losses": 0.007
+               }
+             ]
+           },
+           {
+             "legName": "Leg 32",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.481,
+                 "aux": 0.423,
+                 "hvac": 1.325,
+                 "losses": 0.027
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.481,
+                 "aux": 0.423,
+                 "hvac": 1.325,
+                 "losses": 0.027
+               }
+             ]
+           },
+           {
+             "legName": "Leg 33",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.224,
+                 "aux": 0.198,
+                 "hvac": 0.533,
+                 "losses": 0.013
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.224,
+                 "aux": 0.198,
+                 "hvac": 0.533,
+                 "losses": 0.013
+               }
+             ]
+           },
+           {
+             "legName": "Leg 34",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.348,
+                 "aux": 0.182,
+                 "hvac": 0.475,
+                 "losses": 0.018
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.348,
+                 "aux": 0.182,
+                 "hvac": 0.475,
+                 "losses": 0.018
+               }
+             ]
+           },
+           {
+             "legName": "Leg 35",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.633,
+                 "aux": 0.272,
+                 "hvac": 0.792,
+                 "losses": 0.194
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.633,
+                 "aux": 0.272,
+                 "hvac": 0.792,
+                 "losses": 0.194
+               }
+             ]
+           },
+           {
+             "legName": "Leg 36",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.524,
+                 "aux": 0.231,
+                 "hvac": 0.65,
+                 "losses": 0.046
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.524,
+                 "aux": 0.231,
+                 "hvac": 0.65,
+                 "losses": 0.046
+               }
+             ]
+           },
+           {
+             "legName": "Leg 37",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.976,
+                 "aux": 0.26,
+                 "hvac": 0.75,
+                 "losses": 0.152
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.976,
+                 "aux": 0.26,
+                 "hvac": 0.75,
+                 "losses": 0.152
+               }
+             ]
+           },
+           {
+             "legName": "Leg 38",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.485,
+                 "aux": 0.293,
+                 "hvac": 0.866,
+                 "losses": 0.067
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.485,
+                 "aux": 0.293,
+                 "hvac": 0.866,
+                 "losses": 0.067
+               }
+             ]
+           },
+           {
+             "legName": "Leg 39",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.057,
+                 "aux": 0.264,
+                 "hvac": 0.767,
+                 "losses": 0.014
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.057,
+                 "aux": 0.264,
+                 "hvac": 0.767,
+                 "losses": 0.014
+               }
+             ]
+           },
+           {
+             "legName": "Leg 40",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.34,
+                 "aux": 0.293,
+                 "hvac": 0.866,
+                 "losses": 0.025
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.34,
+                 "aux": 0.293,
+                 "hvac": 0.866,
+                 "losses": 0.025
+               }
+             ]
+           },
+           {
+             "legName": "Leg 41",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.263,
+                 "aux": 0.305,
+                 "hvac": 0.908,
+                 "losses": 0.021
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.263,
+                 "aux": 0.305,
+                 "hvac": 0.908,
+                 "losses": 0.021
+               }
+             ]
+           },
+           {
+             "legName": "Leg 42",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.283,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.024
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.283,
+                 "aux": 0.227,
+                 "hvac": 0.633,
+                 "losses": 0.024
+               }
+             ]
+           },
+           {
+             "legName": "Leg 43",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.061,
+                 "aux": 0.113,
+                 "hvac": 0.231,
+                 "losses": 0.005
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.061,
+                 "aux": 0.113,
+                 "hvac": 0.231,
+                 "losses": 0.005
+               }
+             ]
+           },
+           {
+             "legName": "Leg 44",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.205,
+                 "aux": 0.182,
+                 "hvac": 0.475,
+                 "losses": 0.017
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.205,
+                 "aux": 0.182,
+                 "hvac": 0.475,
+                 "losses": 0.017
+               }
+             ]
+           },
+           {
+             "legName": "Leg 45",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.159,
+                 "aux": 0.149,
+                 "hvac": 0.358,
+                 "losses": 0.009
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.159,
+                 "aux": 0.149,
+                 "hvac": 0.358,
+                 "losses": 0.009
+               }
+             ]
+           },
+           {
+             "legName": "Leg 46",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.247,
+                 "aux": 0.118,
+                 "hvac": 0.25,
+                 "losses": 0.015
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.247,
+                 "aux": 0.118,
+                 "hvac": 0.25,
+                 "losses": 0.015
+               }
+             ]
+           },
+           {
+             "legName": "Leg 47",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.408,
+                 "aux": 0.196,
+                 "hvac": 0.525,
+                 "losses": 0.018
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.408,
+                 "aux": 0.196,
+                 "hvac": 0.525,
+                 "losses": 0.018
+               }
+             ]
+           },
+           {
+             "legName": "Leg 48",
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "traction": 0.298,
+                 "aux": 0.902,
+                 "hvac": 0.65,
+                 "losses": 1.947
+               },
+               {
+                 "cycleNo": 1,
+                 "label": "Cycle 2",
+                 "traction": 0.298,
+                 "aux": 0.902,
+                 "hvac": 0.65,
+                 "losses": 1.947
+               }
+             ]
+           }
+         ],
+         "charging": [
+           {
+             "busStopName": "Bus stop 1",
+             "stationName": "TFS-500kW",
+             "stationType": "TFS",
+             "ratedPower": 500,
+             "nbFacilities": 2,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 74.889,
+                 "chargingTime": 681,
+                 "dwellTime": 684
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 2",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 3",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 4",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 2.557,
+                 "chargingTime": 17,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 5",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 6",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 2.557,
+                 "chargingTime": 17,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 7",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 2.557,
+                 "chargingTime": 17,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 8",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 9",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 1.51,
+                 "chargingTime": 10,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 10",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 11",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 12",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 13",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 14",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 15",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 16",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 17",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 18",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 19",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 20",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 21",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 22",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 23",
+             "stationName": "TFS-500kW",
+             "stationType": "TFS",
+             "ratedPower": 500,
+             "nbFacilities": 2,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 74.889,
+                 "chargingTime": 682,
+                 "dwellTime": 748
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 24",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 26",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 26",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 27",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 28",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 29",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 1.802,
+                 "chargingTime": 12,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 30",
+             "stationName": "FFS-600kW",
+             "stationType": "FFS",
+             "ratedPower": 600,
+             "nbFacilities": 1,
+             "cycles": [
+               {
+                 "cycleNo": 0,
+                 "label": "Cycle 1",
+                 "rechargedEnergy": 0,
+                 "chargingTime": 0,
+                 "dwellTime": 20
+               }
+             ]
+           },
+           {
+             "busStopName": "Bus stop 31",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 32",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 33",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 34",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 35",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 36",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 37",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 38",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 39",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 40",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 41",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 42",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 43",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 44",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 45",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 46",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           },
+           {
+             "busStopName": "Bus stop 47",
+             "stationName": "",
+             "stationType": "",
+             "ratedPower": 0,
+             "nbFacilities": 0,
+             "cycles": []
+           }
+         ]
+       }
+     ]
+   }
+ }
