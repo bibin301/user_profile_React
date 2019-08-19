@@ -1,0 +1,71 @@
+
+      const getRow = ({
+        cycleNo,
+        svdSOC,
+        svdTime,
+        speedDistance,
+        speed
+      }) => {
+        return [
+          cycleNo,
+          svdSOC,
+          svdTime,
+          speedDistance,
+          speed
+        ]
+      }
+      console.log("trat1",trat1)
+      const userInfo1={};
+      _forEach(trat1, route => {
+        console.log("writing for Route", route.routeName);
+        userInfo1[route.routeName] = [];
+        _times(route.socVsDistance.length, cycleIndex => {
+            _times(route.socVsDistance[cycleIndex].distance.length, itemIndex => {
+            const { cycleNo, soc: svdSOC} = route.socVsDistance[cycleIndex];
+            const { time: svdTime } = route.socVsTime[cycleIndex];
+            const { distance: speedDistance, speed } = route.speedVsDistance[cycleIndex];
+            
+            userInfo1[route.routeName].push(getRow({
+              cycleNo: itemIndex==0 ? cycleNo : "",
+              svdSOC: svdSOC[itemIndex],
+              svdTime: svdTime[itemIndex],
+              speedDistance: speedDistance[itemIndex],
+              speed: speed[itemIndex]
+            }))
+          })
+        })
+      })
+      console.log("userInfo1" ,userInfo1)
+      console.log("trat1",trat1)
+          
+      const routexcycleyConsumption = (rName) => ([
+        {
+          columns:[rName],
+          data: [""]
+        },
+        {
+          columns: ["CycleNo" , "svdSOC" , "svdTime" , "speedDistance" , "speedSOC"],
+          data:userInfo1[rName]
+        },
+  
+    ]);
+
+         return(
+           
+             <div className="App">
+                 <h2>export to xlxs format with multiple sheet </h2>
+
+            <ExcelFile element={<button>Download Data</button>}>
+                <ExcelSheet data={info} name="speed vs distance">
+                    <ExcelColumn label="speed" value="speed"/>
+                    <ExcelColumn label="distance" value="distance"/>
+                   
+                    
+                </ExcelSheet>
+                {_map(trat1,(each) => <ExcelSheet  dataSet={routexcycleyConsumption(each.routeName)} alignment="" name={each.routeName}/>)}
+              
+            </ExcelFile>
+            </div>
+         )
+    }
+}
