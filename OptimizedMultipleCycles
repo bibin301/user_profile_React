@@ -1,0 +1,414 @@
+import React, { Component } from 'react';
+import ReactExport from "react-data-export";
+
+
+import {
+    map as _map,
+    forEach as _forEach,
+    times as _times,
+  } from "lodash"
+
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
+class OptimizedMultipleCycles extends Component {
+
+
+    render(){
+
+
+        console.log("optData" , optData)
+
+         const busses = _map(optData.optimizedDesign.infrastructureDetails.buses, (each ,index) => {
+            return ([ index +1 ,each.busName, each.number, each.batteryName, each.batterySize, each.batteryLifetime])
+        })
+
+
+
+
+
+console.log("busses" ,busses )
+
+
+const info =[];
+    
+
+
+      
+      const energyInfo= [];
+      _forEach(optData.optimizedDesign.infrastructureDetails.busesPerCycle, route => {
+          console.log("route" , route)
+          _forEach(route , cycle => {
+              console.log("cycle=======" , cycle)
+            cycle.cycles.length?  _forEach(cycle.cycles, (last, i) => {
+                console.log("index" , i)
+                  console.log("===last==" , last.cycleNo)
+                  energyInfo.push([
+                    cycle.routeName  ,
+                      last.cycleNo,
+                      last.number
+
+                  ])
+              }):
+              energyInfo.push([
+                     cycle.routeName,
+                     "",
+                     ""
+
+                  ])
+
+             
+            
+          })
+       
+      })
+
+
+
+const individual = optData.optimizedDesign.costs.individual;
+const individualCapex = [];
+const individualopex =[]
+_forEach(individual , route => {
+    console.log("individualCapex_h-p" ,route)
+    console.log("individualCapex_h" ,route.capex)
+    if(route.capex){
+        individualCapex.push([
+           route.routeName,
+           route.tco,
+           route.capex.costOfBuses,
+           route.capex.costOfBatteriesOnBoard,
+           route.capex.costOfFeedingStations,
+           route.capex.costOfBatteriesOnTheWayside,
+           route.capex.costOfDigging,
+           route.capex.othersCAPEX,
+           route.capex.totalCapex,
+
+
+        ])
+    }
+  if(route.opex){
+         
+        individualopex.push([
+           route.routeName,
+           route.tco,
+           route.opex.costOfEnergy,
+           route.opex.connectionFee,
+           route.opex.costOfBusDrivers,
+           route.opex.costOfBusMaintenance,
+           route.opex.costOfFeedingStationMaintenance,
+           route.opex.othersOPEX,
+           route.opex.totalOpex,
+           route.opex.numberOfBatteryPacks,
+
+        ])
+
+    }
+ 
+})
+
+console.log("individual" , individualopex)
+
+
+       
+
+        console.log("chargingInfoRoute1" , energyInfo)
+
+        const optInfo = [{
+                ySteps: 1,
+                columns: ["Busses"],
+                data: ""
+            },
+            {
+                columns: [ "Routes" ,"Name", "Number of busses", "Battery used", "Battery Capacity", "Battery Lifetime"],
+                data: busses,
+
+            },
+            
+            {
+                ySteps: 1,
+                columns:["Route name" , "cycleNo" ,"number"],
+                data: energyInfo
+            },
+
+        
+
+             {
+                ySteps: 1,
+                columns:["Route name" , "tco" ,"costOfBuses" ,"costOfBatteriesOnBoard" , "costOfFeedingStations" , "costOfBatteriesOnTheWayside" ,"costOfDigging" ,"othersCAPEX" ,"totalCapex"],
+                data: individualCapex
+            },
+             
+             {
+                ySteps: 1,
+                columns:["Route name" , "tco" ,"costOfEnergy" ,"connectionFee" , "costOfBusDrivers" , "costOfBusMaintenance" ,"costOfFeedingStationMaintenance" ,"othersOPEX" ,"totalOpex" ,"numberOfBatteryPacks"],
+                data: individualopex
+            }
+            
+            
+            
+            ]
+
+
+
+
+
+
+     return(
+
+        <div>
+
+         <ExcelFile element={<button>Download Data</button>}>
+                     <ExcelSheet  dataSet={optInfo} alignment="" name={"buses Details" } />
+                      {/* {_map(myInfo.energyConsumption.consumptionDetails,(each) => <ExcelSheet  dataSet={chargingInfoRoute(each.routeName)} alignment="" name={"energy" + each.routeName}/>)} */}
+                 
+                </ExcelFile>
+        </div>
+       
+    )}
+      
+    
+}
+
+export default OptimizedMultipleCycles;
+
+
+const optData = {
+ 
+  "optimizedDesign": {
+ 
+    "infrastructureDetails": {
+      "buses": [
+        {
+          "busName": "TrolleyBus-18m",
+          "number": 14,
+          "batteryName": "BusBattery-ToshibaLTO-316s*p",
+          "batterySize": 117.0148,
+          "batteryLifetime": 7,
+          "batteryId": 1,
+          "busBatteryId": 658,
+          "nominalCapacity": 117014.79999999999,
+          "soh_at_eol": 80
+        },
+        {
+          "busName": "TrolleyBus-18m",
+          "number": 18,
+          "batteryName": "BusBattery-ToshibaLTO-316s*p",
+          "batterySize": 117.0148,
+          "batteryLifetime": 7,
+          "batteryId": 1,
+          "busBatteryId": 658,
+          "nominalCapacity": 117014.79999999999,
+          "soh_at_eol": 80
+        },
+        {
+          "busName": "TrolleyBus-18m",
+          "number": 34,
+          "batteryName": "BusBattery-ToshibaLTO-316s*p",
+          "batterySize": 117.0148,
+          "batteryLifetime": 7,
+          "batteryId": 1,
+          "busBatteryId": 658,
+          "nominalCapacity": 117014.79999999999,
+          "soh_at_eol": 80
+        },
+        {
+          "busName": "TrolleyBus-18m",
+          "number": 14,
+          "batteryName": "BusBattery-ToshibaLTO-316s*p",
+          "batterySize": 117.0148,
+          "batteryLifetime": 7,
+          "batteryId": 1,
+          "busBatteryId": 658,
+          "nominalCapacity": 117014.79999999999,
+          "soh_at_eol": 80
+        }
+      ],
+      "totalNumberOfBuses": 80,
+      "busesPerCycle": {
+        "routes": [
+          {
+            "routeName": "Route 20",
+            "cycles": [
+              {
+                "cycleNo": 0,
+                "number": 14
+              },
+              {
+                "cycleNo": 1,
+                "number": 14
+              },
+              {
+                "cycleNo": 2,
+                "number": 14
+              }
+            ]
+          },
+          {
+            "routeName": "Route 30",
+            "cycles": [
+              {
+                "cycleNo": 0,
+                "number": 34
+              }
+            ]
+          },
+          {
+            "routeName": "Route 31",
+            "cycles": [
+              {
+                "cycleNo": 0,
+                "number": 14
+              },
+              {
+                "cycleNo": 1,
+                "number": 14
+              }
+            ]
+          },
+          {
+            "routeName": "Route 44",
+            "cycles": [
+              {
+                "cycleNo": 0,
+                "number": 18
+              },
+              {
+                "cycleNo": 1,
+                "number": 18
+              }
+            ]
+          }
+        ],
+        "totalNumberOfBuses": 80
+      },
+      "feedingStations": {
+        "totalNumberOfTFS": 10,
+        "totalNumberOfFFSES": 0,
+        "totalNumberOfFFS": 13,
+        "totalNumberOfDFS": 10,
+        "totalNumberOfFeedingStations": 33
+      }
+    },
+    "costs": {
+      "currency": "CHF",
+      "total": {
+        "tco": 59268136.53,
+        "capex": {
+          "costOfBuses": 60000000,
+          "costOfBatteriesOnBoard": 61582080,
+          "costOfFeedingStations": 7840000,
+          "costOfBatteriesOnTheWayside": -1,
+          "costOfDigging": 630,
+          "othersCAPEX": 0,
+          "totalCapex": 88367990
+        },
+        "opex": {
+          "costOfEnergy": 43689457.03,
+          "connectionFee": 280,
+          "costOfBusDrivers": 9984000,
+          "costOfBusMaintenance": 1120000,
+          "costOfFeedingStationMaintenance": 56000,
+          "othersOPEX": 0,
+          "totalOpex": 54849737.03,
+          "numberOfBatteryPacks": 240
+        }
+      },
+      "individual": [
+        {
+          "routeName": "Route 20",
+          "tco": 11384500.89,
+          "capex": {
+            "costOfBuses": 10500000,
+            "costOfBatteriesOnBoard": 10776864,
+            "costOfFeedingStations": 1680000,
+            "costOfBatteriesOnTheWayside": -1,
+            "costOfDigging": 0,
+            "othersCAPEX": 0,
+            "totalCapex": 15772288
+          },
+          "opex": {
+            "costOfEnergy": 8640626.49,
+            "connectionFee": 60,
+            "costOfBusDrivers": 1747200,
+            "costOfBusMaintenance": 196000,
+            "costOfFeedingStationMaintenance": 12000,
+            "othersOPEX": 0,
+            "totalOpex": 10595886.49,
+            "numberOfBatteryPacks": 42
+          }
+        },
+        {
+          "routeName": "Route 30",
+          "tco": 26823999.61,
+          "capex": {
+            "costOfBuses": 25500000,
+            "costOfBatteriesOnBoard": 26172384,
+            "costOfFeedingStations": 3640000,
+            "costOfBatteriesOnTheWayside": -1,
+            "costOfDigging": 0,
+            "othersCAPEX": 0,
+            "totalCapex": 37864128
+          },
+          "opex": {
+            "costOfEnergy": 20185463.21,
+            "connectionFee": 130,
+            "costOfBusDrivers": 4243200,
+            "costOfBusMaintenance": 476000,
+            "costOfFeedingStationMaintenance": 26000,
+            "othersOPEX": 0,
+            "totalOpex": 24930793.21,
+            "numberOfBatteryPacks": 102
+          }
+        },
+        {
+          "routeName": "Route 31",
+          "tco": 10178933.15,
+          "capex": {
+            "costOfBuses": 10500000,
+            "costOfBatteriesOnBoard": 10776864,
+            "costOfFeedingStations": 840000,
+            "costOfBatteriesOnTheWayside": -1,
+            "costOfDigging": 630,
+            "othersCAPEX": 0,
+            "totalCapex": 14932918
+          },
+          "opex": {
+            "costOfEnergy": 7483057.25,
+            "connectionFee": 30,
+            "costOfBusDrivers": 1747200,
+            "costOfBusMaintenance": 196000,
+            "costOfFeedingStationMaintenance": 6000,
+            "othersOPEX": 0,
+            "totalOpex": 9432287.25,
+            "numberOfBatteryPacks": 42
+          }
+        },
+        {
+          "routeName": "Route 44",
+          "tco": 10880702.87,
+          "capex": {
+            "costOfBuses": 13500000,
+            "costOfBatteriesOnBoard": 13855968,
+            "costOfFeedingStations": 1680000,
+            "costOfBatteriesOnTheWayside": -1,
+            "costOfDigging": 0,
+            "othersCAPEX": 0,
+            "totalCapex": 19798656
+          },
+          "opex": {
+            "costOfEnergy": 7380310.07,
+            "connectionFee": 60,
+            "costOfBusDrivers": 2246400,
+            "costOfBusMaintenance": 252000,
+            "costOfFeedingStationMaintenance": 12000,
+            "othersOPEX": 0,
+            "totalOpex": 9890770.07,
+            "numberOfBatteryPacks": 54
+          }
+        }
+      ]
+    }
+  }
+}
